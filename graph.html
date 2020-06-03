@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de AJAX</title>
+</head>
+<body>
+    <input type="text" class="txtPagina" />
+    <button class="btnBuscar">Buscar</button>
+    <table class="tabla" border="1"> 
+        <tr>
+            <td>Recomendación</td>
+            <td>Audiencia</td>
+            <td>Categoría</td>
+        </tr>
+    </table>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btnBuscar').on('click', function(){
+                var pagina = $('.txtPagina').val();
+
+                //AJAX
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "https://graph.facebook.com/search?type=adinterest&q=["+pagina+"]&limit=10000&locale=es_MX&access_token=340338346931825|1DvnXYICAt5l2r36L8j7CqqVN-Y",
+                    success:function(data){
+                        console.log(data);
+                        $('.tabla').append("<tr><td>"+data.name+"</td><td>"+data.audience_size+"</td><td>"+data.topic+"</td></tr>");
+                    },
+                    error:function(){
+                        console.log("error");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
